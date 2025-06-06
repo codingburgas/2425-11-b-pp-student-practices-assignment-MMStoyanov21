@@ -18,4 +18,3 @@ class LinearRegression:
 
     def predict(self, X):
         return self.weights * X + self.bias
-

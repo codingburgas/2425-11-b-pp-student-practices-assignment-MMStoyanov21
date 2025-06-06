@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prediction Result - Student Score Estimator</title>
 </head>
 <body>
-
+  {% extends "layout.html" %}
+  {% block content %}
+  <h2>Your Predicted Score</h2>
+  <p class="lead">Your estimated score is: <strong>{{ score }}</strong></p>
+  <a class="btn btn-primary" href="{{ url_for('survey.predict') }}">Take Another Survey</a>
+  {% endblock %}
 </body>
 </html>

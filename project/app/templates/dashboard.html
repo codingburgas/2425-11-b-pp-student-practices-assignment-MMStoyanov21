@@ -1,10 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Student Score Estimator</title>
 </head>
 <body>
+  {% extends "layout.html" %}
+  {% block content %}
+  <h2>Admin Dashboard</h2>
 
+  <div class="stats">
+    <p>Total users: {{ num_users }}</p>
+    <p>Total surveys: {{ num_surveys }}</p>
+  </div>
+
+  <h3>Users</h3>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Confirmed</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+      <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td>{{ user.confirmed }}</td>
+        <td>
+          <a href="{{ url_for('dashboard.delete_user', user_id=user.id) }}" class="btn btn-sm btn-danger">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h3>Latest Surveys</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>User</th>
+        <th>Hours Studied</th>
+        <th>Predicted Score</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for survey in latest_surveys %}
+      <tr>
+        <td>{{ survey.id }}</td>
+        <td>{{ survey.author.username }}</td>
+        <td>{{ survey.hours_studied }}</td>
+        <td>{{ survey.predicted_score }}</td>
+        <td>{{ survey.date_posted.strftime('%Y-%m-%d') }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endblock %}
 </body>
 </html>
