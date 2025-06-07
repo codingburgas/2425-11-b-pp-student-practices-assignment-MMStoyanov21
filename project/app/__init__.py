@@ -31,4 +31,9 @@ def create_app(config_class=Config):
     from app.survey.routes import survey
     app.register_blueprint(survey)
 
+    # 🔧 Create tables if they don't exist
+    with app.app_context():
+        from app import models  # Ensure models are loaded
+        db.create_all()
+
     return app

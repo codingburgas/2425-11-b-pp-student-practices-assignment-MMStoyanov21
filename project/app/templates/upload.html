@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% extends "layout.html" %}
+{% block content %}
+<h2>Upload Study Log (CSV)</h2>
+<form method="POST" enctype="multipart/form-data">
+  {{ form.hidden_tag() }}
+  <div>{{ form.csv_file.label }} {{ form.csv_file() }}</div>
+  <div>{{ form.submit() }}</div>
+</form>
+
+{% if estimated_score %}
+  <h3>Estimated Score: {{ estimated_score | round(2) }}</h3>
+{% endif %}
+
+{% if plot_url %}
+  <img src="data:image/png;base64,{{ plot_url }}" alt="Study Trend Graph">
+{% endif %}
+{% endblock %}
+
+</body>
+</html>
