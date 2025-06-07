@@ -6,11 +6,63 @@
   <title>Prediction Result - Student Score Estimator</title>
 </head>
 <body>
-  {% extends "layout.html" %}
-  {% block content %}
-  <h2>Your Predicted Score</h2>
-  <p class="lead">Your estimated score is: <strong>{{ score }}</strong></p>
-  <a class="btn btn-primary" href="{{ url_for('survey.predict') }}">Take Another Survey</a>
-  {% endblock %}
+{% extends "layout.html" %}
+{% block content %}
+<div class="container text-center mt-5" style="font-family: 'Segoe UI', sans-serif;">
+  <h2 class="mb-4 text-success">Predicted Score</h2>
+  <p class="lead">Based on your CSV data, your estimated score is: <strong class="text-success">{{ score }}</strong></p>
+
+  {% if plot_url %}
+  <h4 class="mt-4">Study Pattern</h4>
+  <img src="{{ plot_url }}" alt="Regression Plot" class="img-fluid my-3" style="max-width: 90%;">
+  {% endif %}
+  <div class="button-wrapper">
+    <a class="btn custom-btn" href="{{ url_for('survey.predict') }}">Upload Another CSV</a>
+  </div>
+
+</div>
+
+<style>
+    .button-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 2%;
+    }
+
+    .custom-btn {
+      width: 25%;
+      padding: 1.2% 2%;
+      font-size: 100%;
+      background-color: #2e8b57;
+      color: white;
+      text-align: center;
+      border: none;
+      border-radius: 2em;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .custom-btn:hover {
+      background-color: #277549;
+      color: white;
+    }
+
+
+  h2{
+      text-align: center;
+  }
+  p{
+      text-align: center;
+  }
+  h4{
+      text-align: center;
+  }
+  img{
+      margin-left: 28%;
+  }
+</style>
+{% endblock %}
+
 </body>
 </html>
