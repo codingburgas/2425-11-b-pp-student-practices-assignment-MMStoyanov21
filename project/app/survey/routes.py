@@ -45,7 +45,7 @@ def predict():
         model = LinearRegression()
         model.fit(days, hours_data)
         predicted_raw = model.predict(len(hours_data) + 1)
-        predicted = round(predicted_raw *1.9, 2)
+        predicted = round(predicted_raw *30, 2)
 
         avg_hours = float(np.mean(hours_data))
         entry = Survey(hours_studied=avg_hours, predicted_score=predicted, author=current_user)
