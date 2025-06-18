@@ -1,5 +1,5 @@
 import os
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask import Blueprint, render_template, redirect, url_for, flash, request, session
 from flask_login import login_required, current_user, logout_user
 from werkzeug.utils import secure_filename
 from app import db
@@ -13,6 +13,15 @@ UPLOAD_FOLDER = os.path.join('app', 'static', 'uploads')
 @profile.route("/profile", methods=['GET', 'POST'])
 @login_required
 def view_profile():
+    # Check if admin user logged in via session
+    is_admin = session.get('is_admin', False)
+
+    if is_admin:
+        # Admin can see all users and their passwords (WARNING: insecure!)
+        users = User.query.all()
+        return render_template("profile.html", admin=True, users=users)
+
+    # Normal user profile logic
     form = UpdateProfileForm(obj=current_user)
 
     if form.validate_on_submit():
@@ -28,7 +37,7 @@ def view_profile():
     uploads = Upload.query.filter_by(user_id=current_user.id).order_by(Upload.timestamp.desc()).all()
     estimations = Estimation.query.filter_by(user_id=current_user.id).order_by(Estimation.timestamp.desc()).all()
 
-    return render_template("profile.html", form=form, uploads=uploads, estimations=estimations)
+    return render_template("profile.html", form=form, uploads=uploads, estimations=estimations, admin=False)
 
 
 @profile.route("/profile/upload", methods=['POST'])

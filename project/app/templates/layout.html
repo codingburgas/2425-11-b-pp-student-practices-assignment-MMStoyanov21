@@ -45,7 +45,6 @@
             margin-bottom: 1rem;
             width: 100%;
         }
-
         .btn {
             background-color: #2e8b57;
             color: white;
@@ -55,9 +54,62 @@
             border-radius: 4px;
             width: 100%;
         }
-
         .btn:hover {
             background-color: #276644;
+        }
+
+        /* Admin container style */
+        .admin-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .badge {
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: white;
+        }
+
+        .bg-success {
+            background-color: #28a745;
+        }
+
+        .bg-secondary {
+            background-color: #6c757d;
+        }
+
+        .btn-sm {
+            padding: 0.3rem 0.6rem;
+            font-size: 0.85rem;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
         }
     </style>
 </head>
@@ -67,7 +119,11 @@
         <nav>
             <a href="/">Home</a>
             <a href="/predict">Estimate Score</a>
-            {% if current_user.is_authenticated %}
+            {% if session.get('is_admin') %}
+                <a href="{{ url_for('dashboard.admin_dashboard') }}">Admin</a>
+
+                <a href="/logout">Logout</a>
+            {% elif current_user.is_authenticated %}
                 <a href="{{ url_for('profile.view_profile') }}">Profile</a>
                 <a href="/logout">Logout</a>
             {% else %}

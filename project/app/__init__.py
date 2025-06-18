@@ -28,19 +28,22 @@ def create_app(config_class=Config):
     login_manager.init_app(app)
     migrate.init_app(app, db)
 
+    # Import and register blueprints
     from app.auth.routes import auth
     from app.main.routes import main
     from app.survey.routes import survey
     from app.profile.routes import profile
+    from app.dashboard.routes import dashboard  # ✅ Added this line
 
     app.register_blueprint(auth)
     app.register_blueprint(main)
     app.register_blueprint(survey)
     app.register_blueprint(profile)
+    app.register_blueprint(dashboard)          # ✅ And this line
 
-    # ✅ Automatically create tables on app start
+    # Automatically create tables on app start
     with app.app_context():
-        from app.models import Upload  # 👈 Import your model(s)
-        db.create_all()               # 👈 Create any missing tables
+        from app.models import Upload  # Import your model(s)
+        db.create_all()
 
     return app

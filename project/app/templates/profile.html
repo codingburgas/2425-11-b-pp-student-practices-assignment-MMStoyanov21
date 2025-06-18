@@ -26,6 +26,29 @@
 
 {% block content %}
 <div class="container mt-5">
+    {% if admin %}
+        <h2>All User Profiles (Admin View)</h2>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Password (hashed)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.password }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
     <div class="row">
         <!-- Left: Profile Edit Form -->
         <div class="col-md-6">
@@ -87,8 +110,10 @@
             {% endif %}
         </div>
     </div>
+    {% endif %}
 </div>
 {% endblock %}
+
 
 </body>
 </html>
