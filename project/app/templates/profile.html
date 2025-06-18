@@ -1,4 +1,4 @@
-<!-- File: app/profile/templates/edit_profile.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,6 +22,8 @@
 <body>
 {% extends "layout.html" %}
 
+{% block title %}Edit Profile - Student Score Estimator{% endblock %}
+
 {% block content %}
 <div class="container mt-5">
     <div class="row">
@@ -30,14 +32,22 @@
             <h2>Edit Profile</h2>
             <form method="POST">
                 {{ form.hidden_tag() }}
+
                 <div class="form-group mb-3">
                     {{ form.username.label(class="form-label") }}
                     {{ form.username(class="form-control") }}
                 </div>
+
                 <div class="form-group mb-3">
-                    {{ form.email.label(class="form-label") }}
-                    {{ form.email(class="form-control") }}
+                    {{ form.password.label(class="form-label") }}
+                    {{ form.password(class="form-control") }}
                 </div>
+
+                <div class="form-group mb-3">
+                    {{ form.confirm_password.label(class="form-label") }}
+                    {{ form.confirm_password(class="form-control") }}
+                </div>
+
                 <button type="submit" class="btn btn-primary">Update</button>
             </form>
 

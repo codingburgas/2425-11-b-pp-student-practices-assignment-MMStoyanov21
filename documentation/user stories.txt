@@ -1,0 +1,3 @@
+I want to be able to upload a csv file containig my study hours
+After I upload it to see the predicted score I might get on a test and see a linear regression graphic
+I want to be able to edit my profile and see my past uploads and model trainings

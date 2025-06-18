@@ -7,8 +7,8 @@ from app.models import User, Upload, Estimation
 from app.profile.forms import UpdateProfileForm
 
 profile = Blueprint('profile', __name__)
-
 UPLOAD_FOLDER = os.path.join('app', 'static', 'uploads')
+
 
 @profile.route("/profile", methods=['GET', 'POST'])
 @login_required
@@ -17,7 +17,10 @@ def view_profile():
 
     if form.validate_on_submit():
         current_user.username = form.username.data
-        current_user.email = form.email.data
+
+        if form.password.data:
+            current_user.set_password(form.password.data)
+
         db.session.commit()
         flash('Profile updated successfully.', 'success')
         return redirect(url_for('profile.view_profile'))
@@ -67,13 +70,12 @@ def delete_profile():
     logout_user()
     user = User.query.get_or_404(user_id)
 
-    # Optionally delete user's uploads from disk
     uploads = Upload.query.filter_by(user_id=user_id).all()
     for upload in uploads:
         try:
             os.remove(os.path.join(UPLOAD_FOLDER, upload.filename))
         except Exception:
-            pass  # Skip any errors deleting files
+            pass
 
     db.session.delete(user)
     db.session.commit()
