@@ -4,46 +4,61 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_mail import Mail
+from itsdangerous import URLSafeTimedSerializer
 from config import Config
 
+# Initialize extensions (global)
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
 migrate = Migrate()
+mail = Mail()  # ⬅️ moved here
 
+# Flask-Login config
 login_manager.login_view = 'auth.login'
 login_manager.login_message = "You aren't logged in!"
 login_manager.login_message_category = 'info'
 
+# Upload folder
 UPLOAD_FOLDER = os.path.join('app', 'static', 'uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 def create_app(config_class=Config):
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(config_class)
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+    # Init extensions
     db.init_app(app)
     bcrypt.init_app(app)
     login_manager.init_app(app)
     migrate.init_app(app, db)
+    mail.init_app(app)
 
-    # Import and register blueprints
+    # Email serializer for confirmation
+    serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+
+    # Register blueprints
     from app.auth.routes import auth
     from app.main.routes import main
     from app.survey.routes import survey
     from app.profile.routes import profile
-    from app.dashboard.routes import dashboard  # ✅ Added this line
+    from app.dashboard.routes import dashboard
 
     app.register_blueprint(auth)
     app.register_blueprint(main)
     app.register_blueprint(survey)
     app.register_blueprint(profile)
-    app.register_blueprint(dashboard)          # ✅ And this line
+    app.register_blueprint(dashboard)
 
-    # Automatically create tables on app start
+    # Auto-create tables
     with app.app_context():
-        from app.models import Upload  # Import your model(s)
+        from app.models import Upload  # Add others as needed
         db.create_all()
+
+    # Make tools accessible to app context
+    app.mail = mail
+    app.serializer = serializer
 
     return app
