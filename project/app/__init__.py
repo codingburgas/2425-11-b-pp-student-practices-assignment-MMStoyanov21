@@ -38,7 +38,9 @@ def create_app(config_class=Config):
     from app.survey.routes import survey
     from app.profile.routes import profile
     from app.dashboard.routes import dashboard
+    from app.feedback import feedback as feedback_blueprint
 
+    app.register_blueprint(feedback_blueprint)
     app.register_blueprint(auth)
     app.register_blueprint(main)
     app.register_blueprint(survey)

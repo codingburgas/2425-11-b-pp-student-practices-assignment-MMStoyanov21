@@ -6,6 +6,7 @@ from app import db, login_manager
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
@@ -21,9 +22,10 @@ class User(db.Model, UserMixin):
         lazy=True,
         cascade='all, delete-orphan'
     )
-
     uploads = db.relationship('Upload', backref='user', lazy=True, cascade='all, delete-orphan')
     estimations = db.relationship('Estimation', backref='user', lazy=True, cascade='all, delete-orphan')
+    feedbacks = db.relationship('Feedback', backref='author', lazy=True, cascade='all, delete-orphan')  # ✅ Added
+
 
 class Survey(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -31,6 +33,7 @@ class Survey(db.Model):
     predicted_score = db.Column(db.Float, nullable=True)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
 
 class Upload(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -41,8 +44,22 @@ class Upload(db.Model):
     def __repr__(self):
         return f'<Upload {self.filename}>'
 
+
 class Estimation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     result = db.Column(db.String(255), nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+
+# ✅ Feedback model added
+class Feedback(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    subject = db.Column(db.String(100), nullable=False)
+    message = db.Column(db.Text, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def __repr__(self):
+        return f'<Feedback {self.subject}>'

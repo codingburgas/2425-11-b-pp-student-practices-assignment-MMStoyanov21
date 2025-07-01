@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, session
+from flask import Blueprint, render_template, redirect, url_for, flash, session, request
 from app import db, bcrypt
 from flask_login import login_user, logout_user, current_user
 from app.models import User
@@ -63,4 +63,17 @@ def logout():
     logout_user()
     session.pop('is_admin', None)
     session.pop('admin_username', None)
+    return redirect(url_for('main.home'))
+
+
+# ✅ Admin route to delete a user
+@auth.route('/delete_user/<int:user_id>', methods=['POST'])
+def delete_user(user_id):
+    if session.get('is_admin'):
+        user = User.query.get_or_404(user_id)
+        db.session.delete(user)  # Feedbacks, surveys, etc. cascade delete
+        db.session.commit()
+        flash('User and all associated data (including feedback) deleted.', 'info')
+    else:
+        flash('Unauthorized access.', 'danger')
     return redirect(url_for('main.home'))

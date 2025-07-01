@@ -119,13 +119,16 @@
         <nav>
             <a href="/">Home</a>
             <a href="/predict">Estimate Score</a>
+            <a href="{{ url_for('feedback.view_feedback') }}">Feedback</a>
             {% if session.get('is_admin') %}
                 <a href="{{ url_for('dashboard.admin_dashboard') }}">Admin</a>
 
                 <a href="/logout">Logout</a>
             {% elif current_user.is_authenticated %}
                 <a href="{{ url_for('profile.view_profile') }}">Profile</a>
+                
                 <a href="/logout">Logout</a>
+
             {% else %}
                 <a href="/login">Login</a>
                 <a href="/register">Sign Up</a>
