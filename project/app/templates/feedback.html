@@ -19,8 +19,13 @@
         max-width: 1200px;
     }
 
+    /* Center feedback box if admin (since form is hidden) */
+    .admin-center {
+        justify-content: center !important;
+    }
+
     .form-box, .feedback-box {
-        background-color: #fff;
+        background-color: #f2fdf5;
         padding: 2rem;
         border-radius: 10px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
@@ -28,13 +33,20 @@
         max-width: 550px;
     }
 
+    /* If only feedback box shown, make it wider and centered */
+    .admin-center .feedback-box {
+        max-width: 700px;
+        width: 100%;
+    }
+
     .feedback-box {
         max-height: 600px;
         overflow-y: auto;
+        background-color: #f2fdf5;
     }
 
     .single-feedback {
-        background: #f9f9f9;
+        background: #5caa80;
         padding: 1rem;
         margin-bottom: 1rem;
         border-radius: 8px;
@@ -63,7 +75,9 @@
     }
 </style>
 
-<div class="feedback-container">
+<div class="feedback-container {% if session.get('is_admin') %}admin-center{% endif %}">
+
+    {% if current_user.is_authenticated and not session.get('is_admin') %}
 
     <div class="form-box">
         {% if current_user.is_authenticated %}
@@ -86,6 +100,7 @@
             <p><em>You must be logged in to submit feedback.</em></p>
         {% endif %}
     </div>
+    {% endif %}
 
     <div class="feedback-box">
         <h3>All Feedback</h3>

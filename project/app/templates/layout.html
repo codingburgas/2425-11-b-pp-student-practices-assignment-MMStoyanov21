@@ -9,6 +9,9 @@
             color: #333;
             margin: 0;
             padding: 0;
+            position: relative;
+            min-height: 100vh;
+            padding-bottom: 100px; /* Space for waves */
         }
         header {
             background-color: #2e8b57;
@@ -27,6 +30,7 @@
         }
         main {
             padding: 2rem;
+            min-height: calc(100vh - 150px); /* adjust for header and waves */
         }
         .flash {
             max-width: 600px;
@@ -111,6 +115,34 @@
         .btn-danger:hover {
             background-color: #c82333;
         }
+
+        /* Waves styles */
+        .waves {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            overflow: hidden;
+            line-height: 0;
+            z-index: 10;
+        }
+        .waves svg {
+            position: relative;
+            display: block;
+            width: 200%;
+            height: 100px;
+            animation: wave-animation 10s linear infinite;
+            transform: translateX(0);
+        }
+        @keyframes wave-animation {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
     </style>
 </head>
 <body>
@@ -118,17 +150,16 @@
         <h1>Student Score Estimator</h1>
         <nav>
             <a href="/">Home</a>
-            <a href="/predict">Estimate Score</a>
+            {% if not session.get('is_admin') %}
+                <a href="/predict">Estimate Score</a>
+            {% endif %}
             <a href="{{ url_for('feedback.view_feedback') }}">Feedback</a>
             {% if session.get('is_admin') %}
                 <a href="{{ url_for('dashboard.admin_dashboard') }}">Admin</a>
-
                 <a href="/logout">Logout</a>
             {% elif current_user.is_authenticated %}
                 <a href="{{ url_for('profile.view_profile') }}">Profile</a>
-                
                 <a href="/logout">Logout</a>
-
             {% else %}
                 <a href="/login">Login</a>
                 <a href="/register">Sign Up</a>
@@ -145,5 +176,14 @@
         {% endwith %}
         {% block content %}{% endblock %}
     </main>
+
+    <!-- Green waves at bottom -->
+    <div class="waves" aria-hidden="true">
+        <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
+            <path fill="#2e8b57" fill-opacity="0.6" d="M0,30 C300,90 900,0 1200,30 L1200,100 L0,100 Z"></path>
+            <path fill="#2e8b57" fill-opacity="0.4" d="M0,50 C300,10 900,80 1200,50 L1200,100 L0,100 Z"></path>
+            <path fill="#2e8b57" fill-opacity="0.2" d="M0,70 C300,50 900,100 1200,70 L1200,100 L0,100 Z"></path>
+        </svg>
+    </div>
 </body>
 </html>
