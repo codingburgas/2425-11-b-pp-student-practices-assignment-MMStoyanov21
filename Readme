@@ -1,0 +1,25 @@
+# 📊 Study Hours to Score Percentage Calculator
+
+This project allows users to calculate their expected score percentage based on the number of hours they studied. The data is provided through a CSV file, and the project processes and analyzes the input to give an accurate estimate of performance.
+
+---
+
+## 🚀 Technologies Used
+
+- **PyCharm** – IDE used for writing and running Python code  
+- **Git** – Version control tool for tracking changes  
+- **GitHub** – Platform for hosting the project repository  
+- **Microsoft Word** – Documentation and planning  
+- **Microsoft PowerPoint** – Presentation of project and results  
+
+---
+
+## 📁 How to Download and Run the Project
+
+1. **Copy the repository link**  
+   Click the green **Code** button and copy the HTTPS link.
+
+2. **Download the repository**  
+   Either clone the repository using Git:  
+   ```bash
+   git clone <repository-link>
