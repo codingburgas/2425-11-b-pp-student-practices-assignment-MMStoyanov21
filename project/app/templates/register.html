@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register - Student Score Estimator</title>
-</head>
-<body>
 {% extends "layout.html" %}
+
 {% block title %}Register{% endblock %}
+
 {% block content %}
-<h2 style="text-align: center;">Register</h2>
+<h2 style="text-align: center; color:#2e8b57;">Register</h2>
 <div style="max-width: 400px; margin: auto; background: #f2fdf5; padding: 2rem; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
     <form method="POST">
         {{ form.hidden_tag() }}
@@ -35,6 +29,3 @@
     </form>
 </div>
 {% endblock %}
-
-</body>
-</html>

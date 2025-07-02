@@ -3,35 +3,49 @@
 <head>
     <title>{% block title %}Student Score Estimator{% endblock %}</title>
     <style>
-        body {
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
             font-family: Arial, sans-serif;
             background-color: #e6f2e6;
             color: #333;
-            margin: 0;
-            padding: 0;
-            position: relative;
-            min-height: 100vh;
-            padding-bottom: 100px; /* Space for waves */
+            height: 100%;
         }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
         header {
             background-color: #2e8b57;
             color: white;
             padding: 1rem;
             text-align: center;
         }
+
         nav a {
             margin: 0 10px;
             color: white;
             text-decoration: none;
             font-weight: bold;
         }
+
         nav a:hover {
             text-decoration: underline;
         }
+
         main {
+            flex: 1;
             padding: 2rem;
-            min-height: calc(100vh - 150px); /* adjust for header and waves */
         }
+
         .flash {
             max-width: 600px;
             margin: 1rem auto;
@@ -42,6 +56,7 @@
             border: 1px solid #d00;
             text-align: center;
         }
+
         .form-control {
             padding: 0.5rem;
             border-radius: 4px;
@@ -49,6 +64,7 @@
             margin-bottom: 1rem;
             width: 100%;
         }
+
         .btn {
             background-color: #2e8b57;
             color: white;
@@ -58,11 +74,11 @@
             border-radius: 4px;
             width: 100%;
         }
+
         .btn:hover {
             background-color: #276644;
         }
 
-        /* Admin container style */
         .admin-container {
             background-color: white;
             padding: 2rem;
@@ -116,32 +132,25 @@
             background-color: #c82333;
         }
 
-        /* Waves styles */
         .waves {
-            position: fixed;
-            bottom: 0;
-            left: 0;
+            position: relative;
             width: 100%;
             height: 100px;
             overflow: hidden;
             line-height: 0;
-            z-index: 10;
+            margin-top: auto;
         }
+
         .waves svg {
-            position: relative;
             display: block;
             width: 200%;
             height: 100px;
             animation: wave-animation 10s linear infinite;
-            transform: translateX(0);
         }
+
         @keyframes wave-animation {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-50%);
-            }
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
     </style>
 </head>
@@ -166,6 +175,7 @@
             {% endif %}
         </nav>
     </header>
+
     <main>
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -177,7 +187,6 @@
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Green waves at bottom -->
     <div class="waves" aria-hidden="true">
         <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
             <path fill="#2e8b57" fill-opacity="0.6" d="M0,30 C300,90 900,0 1200,30 L1200,100 L0,100 Z"></path>
